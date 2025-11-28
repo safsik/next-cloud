@@ -1,0 +1,42 @@
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String?
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Invoice {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  amount      Float
+  status      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model Device {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  name        String
+  type        String
+  status      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model Usage {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  deviceId    Int
+  dataUsed    Float
+  timestamp   DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id])
+  device      Device   @relation(fields: [deviceId], references: [id])
+}
